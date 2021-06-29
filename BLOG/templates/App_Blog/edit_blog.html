@@ -1,0 +1,28 @@
+{% extends "base.html" %} 
+{% load crispy_forms_tags %}
+{% block title_block %}
+  Edit Blog
+{% endblock  %}
+
+{% block body_block %}
+<div class="container shadow-sm p-3 mb-5 bg-white rounded ">
+{% if update_blog and blog.author == user %}
+    
+  <h2>Update Your Blog  Here : </h2>
+  <hr>
+  <form enctype="multipart/form-data" method="POST">
+    {{form.media}}
+    {{form|crispy}}
+    
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-info">Update</button>
+    
+  </form>
+  {% else %}
+  <h1>You Are Not Allowed To View This Page ..... Error 404</h1>
+  {% endif %}
+
+</div>
+  
+{% endblock  %}

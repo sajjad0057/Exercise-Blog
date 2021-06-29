@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load  blog_content_filter %}
+{% block title_block %} Profile {% endblock %}
+{% block  body_block %}
+<style>
+  .button {
+    background-color: #a8a8a8;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 4px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left:15px;
+    cursor: pointer;
+  }
+
+</style>
+
+  <div class="row">
+    <div class="col-sm-3 shadow-sm p-3 mb-5 bg-white rounded">
+
+      <h1>Your Info : </h1>
+      <hr>
+      {% if user.user_profile %}
+      <img src="/media/{{user.user_profile.profile_pic}}" alt="Profile Image is None" class="shadow-sm p-3 mb-5 bg-white rounded" width='150px'>
+    
+      {% else %}
+      <img src="/media/profile_pic.png" alt="Profile Image is None" class="shadow-sm p-3 mb-5 bg-white rounded"  width='150px'>
+      <br>
+      <a href="{% url 'App_Login:update_pro_pic' %}" class="button" style="text-decoration: none">Add Image</a>
+      <br>
+      <br>
+      {% endif %}
+    
+      <h4>Username : {{user.username}}</h4>
+      <h5>Name : {{user.first_name}}  {{user.last_name}}</h5>
+      <h6>Email address : {{user.email}}</h6>
+      <hr>
+      <a href="{% url 'App_Login:change_profile' %}"  class="btn btn-info">Update Profile Info</a>
+
+    </div>
+    <div class="col-sm-8 shadow-sm p-3 mb-5 bg-white rounded" style="margin-left: 10px;">
+      <h1>Your Blog :</h1>
+      <hr>
+      {% for blog in user.post_author.all %}
+      <h3>  {{blog.blog_title}} </h3>
+      <h6> {{blog.published_date}} </h6>
+      <h6> {{blog.liked_blog.count}}  Likes | {{blog.blog_comment.count}} Comments</h6>
+      <hr>
+      <div class="row" >
+        <div class="col-sm-4">
+          <img src="/media/{{blog.blog_image}}" alt="" width="100%">
+
+        </div>
+        <div class="col-sm-8">
+          <div>
+            <p>
+              {{blog.blog_content|range|safe|linebreaks}}
+            </p>
+          </div>
+
+          <a href="{% url 'App_Blog:blog_details' slug=blog.slug %}">[Read More]</a>
+          <br>
+          <br>
+          <button class="btn btn-info"><a href=" {% url 'App_Blog:edit_blog'  blog.pk %} "  style="text-decoration: none; color:white">
+            Edit</a>
+          </button>
+          &nbsp &nbsp
+          <button class="btn btn-danger"><a href=" {% url 'App_Blog:delete_blog'  blog.pk %} "  style="text-decoration: none; color:white">
+            Delete</a>
+          </button>
+          <hr>
+        </div>
+ 
+      
+
+      </div>
+
+      {% endfor %}
+      
+    </div>
+
+  </div>
+
+
+
+
+{% endblock %}

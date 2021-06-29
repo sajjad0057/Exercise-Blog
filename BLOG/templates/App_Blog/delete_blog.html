@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title_block %}
+  Delete Blog
+{% endblock  %}
+{% block body_block %}
+<div class="container shadow-sm p-3 mb-5 bg-white rounded">
+    {% if delete_blog %}
+    <div class="alert alert-seccess">
+        <h4>Your Blog Delete Successfully</h4>
+      </div>
+      {% endif %}
+    <h2>Are You Sure Delete This Blog ?</h2>
+    <form  method="POST">
+    {% csrf_token %}
+    <input type="submit" name="sumbit" value="Delete" class="btn btn-danger btn-sm">
+
+    <a href="{% url 'App_Login:profile'%}" class="btn btn-info btn-sm">Cancle</a>
+
+    </form>
+
+    </div>
+
+{% endblock %}
